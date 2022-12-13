@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './Timer.css';
 
 function Timer() {
 
@@ -56,8 +55,6 @@ function Timer() {
 
             <button onClick={() => setStart(true)}>start</button>
             <button onClick={() => stopTimer()}>stop</button>
-        
-
         </div>
     )
 }
