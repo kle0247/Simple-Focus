@@ -21,3 +21,9 @@
     height: 270px;
     border-radius: 50px;
 };
+
+.start {
+    width: 227px;
+    height: 79px;
+    border-radius: 10px;
+}

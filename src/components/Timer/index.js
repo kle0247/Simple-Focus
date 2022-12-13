@@ -56,8 +56,6 @@ function Timer() {
 
             <button onClick={() => setStart(true)}>start</button>
             <button onClick={() => stopTimer()}>stop</button>
-        
-
         </div>
     )
 }
