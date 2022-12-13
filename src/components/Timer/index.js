@@ -1,15 +1,10 @@
-import { width } from '@mui/system';
 import React, { useState, useEffect } from 'react';
 
 function Timer() {
 
-    window.localStorage.setItem('hr', 0);
-    window.localStorage.setItem('min', 25);
-    window.localStorage.setItem('sec', 0);
-
-    const [hr, setHr] = useState(window.localStorage.getItem('hr'));
-    const [min, setMin] = useState(window.localStorage.getItem('min'));
-    const [sec, setSec] = useState(window.localStorage.getItem('sec'));
+    const [hr, setHr] = useState(0);
+    const [min, setMin] = useState(25);
+    const [sec, setSec] = useState(0);
 
     const [start, setStart] = useState(false);
     const [stop, setStop] = useState(false);
@@ -23,7 +18,7 @@ function Timer() {
     }
 
     useEffect(() => {
-        if (start === true && (sec > 0 || min > 0 || hr > 0)) { // if starting and there's time on the clock
+        if (start === true && (sec > 0 || min > 0 || hr > 0)) {
             countdown = setInterval(() => {
                 setSec(sec - 1);
 
