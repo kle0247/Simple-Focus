@@ -47,12 +47,15 @@ function EditTimer() {
             >
                 <Box sx={style}>
                     <Typography>Set Timer</Typography>
-                    <TextField 
-                        type='number' 
-                        label='minutes'
-                        onChange={ (ev) => setMin(ev.target.value)}
-                    />
-                    <button onClick={() => setNewTimer()}>Set Timer</button>
+                    <form>
+                        <TextField 
+                            type='number' 
+                            label='minutes'
+                            onChange={ (ev) => setMin(ev.target.value)}
+                        />
+                        <button onSubmit={() => setNewTimer()}>Set Timer</button>
+                    </form>
+                    
                 </Box>
             </Modal>
         </div>

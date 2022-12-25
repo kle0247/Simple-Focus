@@ -5,7 +5,7 @@ function Navbar(){
     return(
         <div className='navbar'>
             <h1>SIMPLE FOCUS</h1>
-            <EditTimer /> 
+            <EditTimer />
         </div>
     )
 };
