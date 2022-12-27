@@ -1,8 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
+import { Box, Button, createTheme, ThemeProvider, ToggleButton } from '@mui/material';
+
+const theme = createTheme({
+    components: {
+        MuiButton: {
+            variants: [
+                {
+                    props: {
+                        variant: 'contained'
+                    },
+                    style: {
+                        width: '227px',
+                        height: '79px',
+                        backgroundColor: '#F69B9B',
+                        fontSize: '50px',
+                        margin: '1rem',
+                        borderRadius: '10px',
+                        boxShadow: '3'
+                    }
+                }
+            ]
+        }
+    }
+});
+
+const toggleButtonSx = {
+    width: '227px',
+    height: '79px',
+    backgroundColor: '#F69B9B',
+    fontSize: '50px',
+    margin: '1rem',
+    borderRadius: '10px',
+    boxShadow: '3',
+    color: 'white',
+    '&:hover': {
+        backgroundColor: '#1976d2',
+        color: 'white'
+    },
+    "&[aria-pressed=true]": {
+        backgroundColor: '#1976d2',
+        color: 'white',
+        boxShadow: '1'
+    },
+    "&[aria-pressed=true]:hover": {
+        backgroundColor: '#1976d2',
+        color: 'white'
+    }
+};
 
 function Timer() {
-
     const [studyTime, setStudyTime] = useState(true);
     const [breakTime, setBreakTime] = useState(false);
 
@@ -57,23 +104,39 @@ function Timer() {
     }, [start, sec, min, stop]); //just need to update when start is true
 
     return (
-        <div>
-            <Navbar setTimer={setMin} />
-            <button className={ studyTime ? 'selected' : 'timerButton' } onClick={() => studyOn()} >study</button>
-            <button className={ breakTime ? 'selected' : 'timerButton' } onClick={() => breakOn()}>break</button>
-            <button className='timerButton' onClick={() => reset()}>reset</button>
+        <Box>
+            <ThemeProvider theme={theme}>
+                <Navbar setTimer={setMin} />
+                <ToggleButton
+                    sx={toggleButtonSx}
+                    value='study'
+                    selected={studyTime ? true : false}
+                    variant='contained'
+                    onClick={() => studyOn()}>
+                    study
+                </ToggleButton>
+                <ToggleButton
+                    sx={toggleButtonSx}
+                    variant='contained'
+                    value='break'
+                    selected={breakTime ? true : false}
+                    onClick={() => breakOn()}>
+                    break
+                </ToggleButton>
+                <Button variant='contained' onClick={() => reset()}>reset</Button>
 
-            <div className='timer'>
-                {
-                    min < 10 ? `0${min}` : `${min}`
-                }:{
-                    sec < 10 ? `0${sec}` : `${sec}`
-                }
-            </div>
+                <Box className='timer'>
+                    {
+                        min < 10 ? `0${min}` : `${min}`
+                    }:{
+                        sec < 10 ? `0${sec}` : `${sec}`
+                    }
+                </Box>
 
-            <button className='timerButton' onClick={() => setStart(true)}>start</button>
-            <button className='timerButton' onClick={() => stopTimer()}>stop</button>
-        </div>
+                <Button variant='contained' onClick={() => setStart(true)}>start</Button>
+                <Button variant='contained' onClick={() => stopTimer()}>stop</Button>
+            </ThemeProvider>
+        </Box>
     )
 }
 

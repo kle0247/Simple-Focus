@@ -13,17 +13,12 @@ body {
     width: 227px;
     height: 79px;
     border-radius: 10px;
-    margin: 1rem;
     background-color: #F69B9B;
     color: white;
     /* text-transform: uppercase; */
     /* text-decoration: underline; */
     font-size: 50px;
-    border: 0px;
-    box-shadow: 0px 4px 4px
-    /*x, y, blur radius, color*/
-    rgba(0, 0, 0, 0.25),
-    0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px solid black;
 }
 
 .timerButton {
@@ -37,7 +32,6 @@ body {
     font-size: 50px;
     border: 0px;
     box-shadow: 0px 4px 4px
-    /*x, y, blur radius, color*/
     rgba(0, 0, 0, 0.25),
     0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -82,3 +76,7 @@ h1 {
     height: 270px;
     border-radius: 50px;
 };
+
+.css-wn1i34-MuiButtonBase-root-MuiButton-root:hover {
+    background: #F0DCDC;
+}
