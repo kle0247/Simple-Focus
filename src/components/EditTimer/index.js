@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Modal, Box, Typography, TextField } from '@mui/material';
+import { Modal, Box, Typography, TextField, Select, MenuItem, FormControl, Button } from '@mui/material';
 
 const style = {
     position: 'absolute',
@@ -15,18 +15,20 @@ const style = {
     padding: 4,
   };
 
-function EditTimer() {
-    const [min, setMin] = useState('');
+function EditTimer({setTimer}) {
+    const [min, setMin] = useState(0);
+    const [timerType, setTimerType] = useState('');
     const [error, setError ] = useState(false);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    function setNewTimer(){
-        window.localStorage.setItem('min', min);
+    function handleClick(){  
+        window.localStorage.setItem(timerType, min);
+        setTimer(min);
         handleClose();
     }
-    
+
     return (
         <div>
             <SettingsIcon 
@@ -47,15 +49,25 @@ function EditTimer() {
             >
                 <Box sx={style}>
                     <Typography>Set Timer</Typography>
-                    <form>
+                    <FormControl onSubmit={handleClick}>
+                        <Select
+                            value={timerType}
+                            label="Timer"
+                            type='text'
+                            onChange={ (ev) => setTimerType(ev.target.value) }
+                        >
+                            <MenuItem value='study'>study</MenuItem>
+                            <MenuItem value='break'>break</MenuItem>
+                        </Select>
                         <TextField 
                             type='number' 
                             label='minutes'
-                            onChange={ (ev) => setMin(ev.target.value)}
+                            onChange={ (ev) => setMin(ev.target.value) }
                         />
-                        <button onSubmit={() => setNewTimer()}>Set Timer</button>
-                    </form>
-                    
+
+                        <Button onClick={handleClick}>Set Timer</Button>
+                    </FormControl>    
+
                 </Box>
             </Modal>
         </div>

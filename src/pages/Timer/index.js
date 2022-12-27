@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import EditTimer from '../EditTimer';
+import Navbar from '../../components/Navbar';
 
 function Timer() {
 
     const [studyTime, setStudyTime] = useState(true);
     const [breakTime, setBreakTime] = useState(false);
 
-    const [min, setMin] = useState(25);
+    const [min, setMin] = useState(window.localStorage?.getItem('study') || 25);
     const [sec, setSec] = useState(0);
 
     const [start, setStart] = useState(false);
@@ -58,6 +58,7 @@ function Timer() {
 
     return (
         <div>
+            <Navbar setTimer={setMin} />
             <button className='timerButton' onClick={() => studyOn()} >study</button>
             <button className='timerButton' onClick={() => breakOn()}>break</button>
             <button className='timerButton' onClick={() => reset()}>reset</button>

@@ -1,10 +1,8 @@
-import Timer from './components/Timer';
-import Navbar from './components/Navbar';
+import Timer from '../src/pages/Timer'
 
 function App() {
   return (
     <div className="App">
-      <Navbar/>
       <Timer/>
     </div>
   );

@@ -1,11 +1,11 @@
 import React from 'react';
 import EditTimer from '../EditTimer';
 
-function Navbar(){
+function Navbar({setTimer}){
     return(
         <div className='navbar'>
             <h1>SIMPLE FOCUS</h1>
-            <EditTimer />
+            <EditTimer setTimer={setTimer} />
         </div>
     )
 };
