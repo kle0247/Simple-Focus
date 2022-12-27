@@ -59,8 +59,8 @@ function Timer() {
     return (
         <div>
             <Navbar setTimer={setMin} />
-            <button className='timerButton' onClick={() => studyOn()} >study</button>
-            <button className='timerButton' onClick={() => breakOn()}>break</button>
+            <button className={ studyTime ? 'selected' : 'timerButton' } onClick={() => studyOn()} >study</button>
+            <button className={ breakTime ? 'selected' : 'timerButton' } onClick={() => breakOn()}>break</button>
             <button className='timerButton' onClick={() => reset()}>reset</button>
 
             <div className='timer'>

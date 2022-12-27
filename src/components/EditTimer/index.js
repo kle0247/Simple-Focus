@@ -13,7 +13,7 @@ const style = {
     bgcolor: 'white',
     boxShadow: 24,
     padding: 4,
-  };
+};
 
 function EditTimer({setTimer}) {
     const [min, setMin] = useState(0);
