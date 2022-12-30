@@ -1,57 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
-import { Box, Button, createTheme, ThemeProvider, ToggleButton } from '@mui/material';
+import {
+    Box,
+    Button,
+    createTheme,
+    ThemeProvider,
+    ToggleButton
+} from '@mui/material';
 
 const theme = createTheme({
     components: {
-        MuiButton: {
-            variants: [
-                {
-                    props: {
-                        variant: 'contained'
-                    },
-                    style: {
+        MuiButton: { //name of component
+            styleOverrides: {
+                root: ({ ownerState }) => ({ //name of slot
+                    ...ownerState.variant === 'contained' && {
                         width: '227px',
                         height: '79px',
                         backgroundColor: '#F69B9B',
+                        fontFamily: 'Inter',
                         fontSize: '50px',
                         margin: '1rem',
                         borderRadius: '10px',
-                        boxShadow: '3'
+                        boxShadow: '3',
+                        color: 'white'
+                    }
+                })
+            }
+        },
+        MuiToggleButton: {
+            styleOverrides: {
+                root: {
+                    width: '227px',
+                    height: '79px',
+                    backgroundColor: '#F69B9B',
+                    fontFamily: 'Inter',
+                    fontSize: '50px',
+                    margin: '1rem',
+                    borderRadius: '10px',
+                    boxShadow: '3',
+                    color: 'white',
+                    '&:hover': {
+                        backgroundColor: '#1976d2',
+                        color: 'white'
+                    },
+                    "&[aria-pressed=true]": {
+                        backgroundColor: '#1976d2',
+                        color: 'white',
+                        boxShadow: '1'
+                    },
+                    "&[aria-pressed=true]:hover": {
+                        backgroundColor: '#1976d2',
+                        color: 'white'
                     }
                 }
-            ]
+            }
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: ({ ownerState }) => ({
+                    ...ownerState.select && {
+                        marginBottom: '1rem',
+                        textAlign: 'left'
+                    }
+                })
+            }
+        },
+        MuiSvgIcon: {
+            styleOverrides: {
+                root: ({ ownerState }) => ({
+                    ...ownerState.className === 'settingsIcon' && {
+                        width: '69px',
+                        height: '67px',
+                        '&:active':
+                        {
+                            transform: 'rotate(90deg)',
+                            color: '#1976d2'
+                        }
+                    }
+                })
+            }
         }
     }
 });
 
-const toggleButtonSx = {
-    width: '227px',
-    height: '79px',
-    backgroundColor: '#F69B9B',
-    fontSize: '50px',
-    margin: '1rem',
-    borderRadius: '10px',
-    boxShadow: '3',
-    color: 'white',
-    '&:hover': {
-        backgroundColor: '#1976d2',
-        color: 'white'
-    },
-    "&[aria-pressed=true]": {
-        backgroundColor: '#1976d2',
-        color: 'white',
-        boxShadow: '1'
-    },
-    "&[aria-pressed=true]:hover": {
-        backgroundColor: '#1976d2',
-        color: 'white'
-    }
-};
-
 function Timer() {
     const [studyTime, setStudyTime] = useState(true);
     const [breakTime, setBreakTime] = useState(false);
+    const [isPlaying, setPlaying] = useState(false);
 
     const [min, setMin] = useState(window.localStorage?.getItem('study') || 25);
     const [sec, setSec] = useState(0);
@@ -96,7 +131,7 @@ function Timer() {
                 }
             }, 1000); //in 1 sec intervals
 
-            if (stop === true) {
+            if (stop === true || (sec === 0 && min === 0)) {
                 return () => clearInterval(countdown);
             }
             return () => clearInterval(countdown);
@@ -106,9 +141,8 @@ function Timer() {
     return (
         <Box>
             <ThemeProvider theme={theme}>
-                <Navbar setTimer={setMin} />
+                <Navbar setTimer={setMin} setSec={setSec} setStart={setStart} />
                 <ToggleButton
-                    sx={toggleButtonSx}
                     value='study'
                     selected={studyTime ? true : false}
                     variant='contained'
@@ -116,7 +150,6 @@ function Timer() {
                     study
                 </ToggleButton>
                 <ToggleButton
-                    sx={toggleButtonSx}
                     variant='contained'
                     value='break'
                     selected={breakTime ? true : false}
