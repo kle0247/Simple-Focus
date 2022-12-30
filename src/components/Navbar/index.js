@@ -1,12 +1,15 @@
 import React from 'react';
 import EditTimer from '../EditTimer';
+import { 
+    Box
+} from '@mui/material';
 
-function Navbar({setTimer}){
+function Navbar({setTimer, setSec, setStart}){
     return(
-        <div className='navbar'>
+        <Box className='navbar'>
             <h1>SIMPLE FOCUS</h1>
-            <EditTimer setTimer={setTimer} />
-        </div>
+            <EditTimer setTimer={setTimer} setSec={setSec} setStart={setStart} />
+        </Box>
     )
 };
 

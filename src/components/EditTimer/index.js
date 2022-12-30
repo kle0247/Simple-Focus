@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Modal, Box, Typography, TextField, Select, MenuItem, FormControl, Button } from '@mui/material';
+import {
+    Modal,
+    Box,
+    TextField,
+    MenuItem,
+    FormControl,
+    Button
+} from '@mui/material';
+
 
 const style = {
     position: 'absolute',
@@ -11,66 +19,64 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'white',
+    borderRadius: '10px',
     boxShadow: 24,
-    padding: 4,
+    padding: 4
 };
 
-function EditTimer({setTimer}) {
+function EditTimer({ setTimer, setSec, setStart }) {
     const [min, setMin] = useState(0);
     const [timerType, setTimerType] = useState('');
-    const [error, setError ] = useState(false);
     const [open, setOpen] = useState(false);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    function handleClick(){  
+    const isMinValid = (min) => min > 60 || min < 0;
+
+    function handleClick() {
         window.localStorage.setItem(timerType, min);
         setTimer(min);
+        setSec(0);
+        setStart(false);
         handleClose();
     }
 
     return (
-        <div>
-            <SettingsIcon 
-                sx={{ 
-                    width: '69px', 
-                    height: '67px', 
-                    '&:active': 
-                        { transform: 'rotate(90deg)', 
-                          color: '#F0DCDC'
-                        } 
-                    }} 
-                fontSize='large' 
-                onClick={handleOpen} 
+        <Box>
+            <SettingsIcon
+                onClick={handleOpen}
+                className='settingsIcon'
             />
             <Modal
                 open={open}
                 onClose={handleClose}
             >
                 <Box sx={style}>
-                    <Typography>Set Timer</Typography>
+                    <h1>SET YOUR TIMER</h1>
                     <FormControl onSubmit={handleClick}>
-                        <Select
-                            value={timerType}
-                            label="Timer"
+                        <TextField
+                            select
                             type='text'
-                            onChange={ (ev) => setTimerType(ev.target.value) }
+                            value={timerType}
+                            label='select a timer'
+                            onChange={(ev) => setTimerType(ev.target.value)}
                         >
                             <MenuItem value='study'>study</MenuItem>
                             <MenuItem value='break'>break</MenuItem>
-                        </Select>
-                        <TextField 
-                            type='number' 
+                        </TextField>
+                        <TextField
+                            type='number'
                             label='minutes'
-                            onChange={ (ev) => setMin(ev.target.value) }
+                            error={isMinValid(min)}
+                            onChange={(ev) => setMin(ev.target.value)}
+                            helperText={isMinValid(min) ? 'Minutes must be between 0 and 60' : null}
                         />
-
-                        <Button onClick={handleClick}>Set Timer</Button>
-                    </FormControl>    
-
+                        <Button disabled={isMinValid(min) || !min || !timerType } onClick={handleClick}>Set Timer</Button>
+                    </FormControl>
                 </Box>
             </Modal>
-        </div>
+        </Box>
     )
 };
 
