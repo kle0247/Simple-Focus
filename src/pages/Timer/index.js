@@ -73,6 +73,7 @@ const theme = createTheme({
                     ...ownerState.className === 'settingsIcon' && {
                         width: '69px',
                         height: '67px',
+                        paddingTop: '4px',
                         '&:active':
                         {
                             transform: 'rotate(90deg)',
@@ -80,6 +81,17 @@ const theme = createTheme({
                         }
                     }
                 })
+            }
+        }, 
+        MuiAppBar: {
+            styleOverrides: {
+                root: {
+                    display: 'flex',
+                    color: 'black',
+                    backgroundColor: 'white',
+                    boxShadow: '0px 0px 0px 0px',
+                    padding: '0.5rem 1.5rem'
+                }
             }
         }
     }
