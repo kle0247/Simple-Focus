@@ -32,7 +32,7 @@ function EditTimer({ setTimer, setSec, setStart }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const isMinValid = (min) => min > 60 || min < 0;
+    const isMinInvalid = (min) => min > 60 || min < 0 ;
 
     function handleClick() {
         window.localStorage.setItem(timerType, min);
@@ -68,11 +68,11 @@ function EditTimer({ setTimer, setSec, setStart }) {
                         <TextField
                             type='number'
                             label='minutes'
-                            error={isMinValid(min)}
+                            error={isMinInvalid(min)}
                             onChange={(ev) => setMin(ev.target.value)}
-                            helperText={isMinValid(min) ? 'Minutes must be between 0 and 60' : null}
+                            helperText='Minutes must be between 1 and 60' //between 0 and 61?
                         />
-                        <Button disabled={isMinValid(min) || !min || !timerType } onClick={handleClick}>Set Timer</Button>
+                        <Button disabled={isMinInvalid(min) || !min || !timerType } onClick={handleClick}>Set Timer</Button>
                     </FormControl>
                 </Box>
             </Modal>
