@@ -70,7 +70,7 @@ function EditTimer({ setTimer, setSec, setStart }) {
                             label='minutes'
                             error={isMinInvalid(min)}
                             onChange={(ev) => setMin(ev.target.value)}
-                            helperText='Minutes must be between 1 and 60' //between 0 and 61?
+                            helperText={ isMinInvalid ? null : 'Minutes must be between 1 and 60' } //between 0 and 61?
                         />
                         <Button disabled={isMinInvalid(min) || !min || !timerType } onClick={handleClick}>Set Timer</Button>
                     </FormControl>
