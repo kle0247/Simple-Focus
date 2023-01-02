@@ -62,7 +62,7 @@ function EditTimer({ setTimer, setSec, setStart }) {
                             label='select a timer'
                             onChange={(ev) => setTimerType(ev.target.value)}
                         >
-                            <MenuItem value='study'>study</MenuItem>
+                            <MenuItem value='focus'>focus</MenuItem>
                             <MenuItem value='break'>break</MenuItem>
                         </TextField>
                         <TextField

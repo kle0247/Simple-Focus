@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from '../../components/Navbar';
 import {
     Box,
@@ -98,38 +98,57 @@ const theme = createTheme({
 });
 
 function Timer() {
-    const [studyTime, setStudyTime] = useState(true);
+    const [focusTime, setFocusTime] = useState(true);
     const [breakTime, setBreakTime] = useState(false);
 
-    const [min, setMin] = useState(window.localStorage?.getItem('study') || 25);
+    const [min, setMin] = useState(window.localStorage?.getItem('focus') || 25);
     const [sec, setSec] = useState(0);
 
     const [start, setStart] = useState(false);
     const [stop, setStop] = useState(false);
+
+    const handleKeyPress = useCallback((event) => {
+        if( event.key === ' ' && !start ){
+            startTimer();
+        } else if( event.key === ' ' && start) {
+            stopTimer();
+        } else if( event.key === 'r'){
+            reset()
+        } else if( event.key === 'b'){
+            breakOn()
+        } else if( event.key === 'f'){
+            focusOn()
+        }
+    }, [start, stop, reset, focusOn, breakOn]);
 
     function stopTimer() {
         setStart(false);
         setStop(true);
     }
 
+    function startTimer() {
+        setStart(true);
+        setStop(false);
+    }
+
     function reset() {
-        setMin(studyTime ? (window.localStorage?.getItem('study') || 25) : (window.localStorage?.getItem('break') || 10));
+        setMin(focusTime ? (window.localStorage?.getItem('focus') || 25) : (window.localStorage?.getItem('break') || 10));
         setSec(0);
         setStart(false);
         setStop(true);
     }
 
     function breakOn() {
-        setStudyTime(false);
+        setFocusTime(false);
         setBreakTime(true);
         setMin((window.localStorage?.getItem('break') || 10));
         setSec(0);
     }
 
-    function studyOn() {
+    function focusOn() {
         setBreakTime(false);
-        setStudyTime(true);
-        setMin((window.localStorage?.getItem('study') || 25));
+        setFocusTime(true);
+        setMin((window.localStorage?.getItem('focus') || 25));
         setSec(0);
     }
 
@@ -138,7 +157,10 @@ function Timer() {
     }
 
     useEffect(() => {
-        let countdown
+        let countdown;
+        
+        document.addEventListener('keydown', handleKeyPress);
+         
         if (start === true && (sec > 0 || min > 0)) {
             countdown = setInterval(() => {
                 setSec(sec - 1);
@@ -152,19 +174,23 @@ function Timer() {
             play();
             return () => clearInterval(countdown);
         }
-        return () => clearInterval(countdown);
-    }, [start, sec, min, stop]); 
+
+        return (() => {
+            clearInterval(countdown);
+            document.removeEventListener('keydown', handleKeyPress);
+        });
+    }, [start, sec, min, stop, handleKeyPress]); 
 
     return (
         <Box>
             <ThemeProvider theme={theme}>
                 <Navbar setTimer={setMin} setSec={setSec} setStart={setStart} />
                 <ToggleButton
-                    value='study'
-                    selected={studyTime ? true : false}
+                    value='focus'
+                    selected={focusTime ? true : false}
                     variant='contained'
-                    onClick={() => studyOn()}>
-                    study
+                    onClick={() => focusOn()}>
+                    focus
                 </ToggleButton>
                 <ToggleButton
                     variant='contained'
@@ -183,7 +209,7 @@ function Timer() {
                     }
                 </Box>
 
-                <Button disabled={sec === 0 && min === 0} variant='contained' onClick={() => setStart(true)  }>start</Button>
+                <Button disabled={sec === 0 && min === 0} variant='contained' onClick={() => startTimer()  }>start</Button>
                 <Button disabled={sec === 0 && min === 0}  variant='contained' onClick={() => stopTimer()}>stop</Button>
             </ThemeProvider>
         </Box>
